@@ -1,12 +1,12 @@
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Bubble : MonoBehaviour
 {
     [SerializeField]
     private GameObject bubbleVisual;
+    private SphereCollider col;
 
     [SerializeField]
     private LayerMask environmentLayers, enemyLayers;
@@ -26,13 +26,14 @@ public class Bubble : MonoBehaviour
     private Rigidbody rb;
 
     private bool encasing;
-    private GameObject encasedObject;
+    private List<GameObject> encasedObjects = new();
 
     private Coroutine destroyCoroutine;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<SphereCollider>();
 
         destroyCoroutine = StartCoroutine(IDelayDestroy(lifetime));
     }
@@ -43,12 +44,14 @@ public class Bubble : MonoBehaviour
 
         if (encasing)
         {
-            encasedObject.transform.parent = null;
-            Enemy enemy = encasedObject.GetComponent<Enemy>();
-
-            if (enemy != null)
+            foreach (GameObject encasedObject in encasedObjects)
             {
-                enemy.StopEncase();
+                encasedObject.transform.parent = null;
+                
+                if (encasedObject.TryGetComponent<Enemy>(out Enemy enemy))
+                {
+                    enemy.StopEncase();
+                }
             }
         }
 
@@ -90,9 +93,7 @@ public class Bubble : MonoBehaviour
     {
         Enemy enemy = enemyObject.GetComponent<Enemy>();
         
-        if (enemy.Encased)
-            Destroy(this.gameObject);
-        else
+        if (!enemy.Encased && !encasedObjects.Contains(enemyObject))
         {
             enemy.Encase();
             ResizeBubble(enemy);
@@ -100,7 +101,7 @@ public class Bubble : MonoBehaviour
             SetEncaseForces();
 
             encasing = true;
-            encasedObject = enemy.gameObject;
+            encasedObjects.Add(enemy.gameObject);
 
             StopCoroutine(destroyCoroutine);
             StartCoroutine(IDelayDestroy(encaseDuration));
@@ -114,6 +115,8 @@ public class Bubble : MonoBehaviour
                         enemy.bubbleSizeMultiplier,
                         enemy.bubbleSizeMultiplier
                         );
+
+        col.radius = enemy.bubbleSizeMultiplier / 2;
     }
 
     private void SetEncasedObjectTransform(GameObject encasedObject)
