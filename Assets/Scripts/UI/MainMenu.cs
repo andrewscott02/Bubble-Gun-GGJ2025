@@ -16,6 +16,9 @@ public class MainMenu : MonoBehaviour
     private GameObject closeBubble;
 
     [SerializeField]
+    private GameObject controls;
+
+    [SerializeField]
     private Button playButton;
     [SerializeField]
     private Button infoButton;
@@ -33,9 +36,11 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         playButton.onClick.AddListener(() => ButtonPressed(Play, playBubble, 0.75f));
-        infoButton.onClick.AddListener(() => ButtonPressed(Info, infoBubble, 0));
+        infoButton.onClick.AddListener(() => ButtonPressed(Info, infoBubble, 0.1f));
         quitButton.onClick.AddListener(() => ButtonPressed(Quit, quitBubble, 0.75f));
-        closeButton.onClick.AddListener(() => ButtonPressed(Close, closeBubble, 0));
+        closeButton.onClick.AddListener(() => ButtonPressed(Close, closeBubble, 0.1f));
+
+        Close();
     }
 
     private void ButtonPressed(System.Action func, GameObject bubble, float delay)
@@ -59,7 +64,16 @@ public class MainMenu : MonoBehaviour
 
     private void Info()
     {
+        controls.SetActive(true);
+        closeBubble.SetActive(true);
+        closeButton.gameObject.SetActive(true);
 
+        playBubble.SetActive(false);
+        playButton.gameObject.SetActive(false);
+        infoBubble.SetActive(false);
+        infoButton.gameObject.SetActive(false);
+        quitBubble.SetActive(false);
+        quitButton.gameObject.SetActive(false);
     }
 
     private void Quit()
@@ -73,6 +87,15 @@ public class MainMenu : MonoBehaviour
 
     private void Close()
     {
+        controls.SetActive(false);
+        closeBubble.SetActive(false);
+        closeButton.gameObject.SetActive(false);
 
+        playBubble.SetActive(true);
+        playButton.gameObject.SetActive(true);
+        infoBubble.SetActive(true);
+        infoButton.gameObject.SetActive(true);
+        quitBubble.SetActive(true);
+        quitButton.gameObject.SetActive(true);
     }
 }
