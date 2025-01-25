@@ -57,6 +57,7 @@ MonoBehaviour:
   hazardLayers:
     serializedVersion: 2
     m_Bits: 2048
+  deathFX: {fileID: 4129786204637099130, guid: 75f0e0215d0007d44be8cd42f0bb944c, type: 3}
   landForce: 1.06
   standDelay: 1
   bubbleSizeMultiplier: 0.7951085

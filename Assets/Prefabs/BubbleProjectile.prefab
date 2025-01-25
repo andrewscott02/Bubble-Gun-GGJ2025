@@ -57,12 +57,12 @@ MonoBehaviour:
   hazardLayers:
     serializedVersion: 2
     m_Bits: 2048
-  projectileSpeed: 50
-  encaseUpwardsSpeed: 5
-  encaseVelocityMultiplier: 0.5
+  projectileSpeed: 100
+  encaseUpwardsSpeed: 8
+  encaseVelocityMultiplier: 0.25
   lifetime: 5
   encaseDuration: 10
-  basePopThreshold: 0.4
+  basePopThreshold: 0.6
   encasePopThreshold: 0.2
 --- !u!54 &5798692555279247649
 Rigidbody:

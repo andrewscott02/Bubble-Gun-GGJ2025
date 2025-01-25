@@ -12,15 +12,18 @@ public class Enemy : MonoBehaviour
     private LayerMask environmentLayers, playerLayers, hazardLayers;
 
     [SerializeField]
+    private GameObject deathFX;
+
+    [SerializeField]
     private float landForce = 1;
     [SerializeField]
     private float standDelay = 1;
 
     public float bubbleSizeMultiplier;
 
-    public bool Encased {  get; private set; } = false;
-
     private Rigidbody rb;
+
+    public bool Encased { get; private set; } = false;
 
     private void Awake()
     {
@@ -99,7 +102,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        //particle effect
+        Instantiate(deathFX, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }
