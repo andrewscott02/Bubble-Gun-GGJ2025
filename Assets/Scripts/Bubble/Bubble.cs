@@ -12,6 +12,9 @@ public class Bubble : MonoBehaviour
     private LayerMask environmentLayers, enemyLayers, hazardLayers;
 
     [SerializeField]
+    private Object bubblePopFX;
+
+    [SerializeField]
     private float projectileSpeed = 1;
     [SerializeField]
     private float encaseUpwardsSpeed = 1;
@@ -65,6 +68,7 @@ public class Bubble : MonoBehaviour
             }
         }
 
+        Instantiate(bubblePopFX, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 

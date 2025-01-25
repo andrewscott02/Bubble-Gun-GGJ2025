@@ -57,6 +57,7 @@ MonoBehaviour:
   hazardLayers:
     serializedVersion: 2
     m_Bits: 2048
+  bubblePopFX: {fileID: 4129786204637099130, guid: 46c548236e056374797cd9cfd4f88773, type: 3}
   projectileSpeed: 100
   encaseUpwardsSpeed: 8
   encaseVelocityMultiplier: 0.25
