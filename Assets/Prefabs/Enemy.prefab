@@ -51,6 +51,12 @@ MonoBehaviour:
   environmentLayers:
     serializedVersion: 2
     m_Bits: 1
+  playerLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  hazardLayers:
+    serializedVersion: 2
+    m_Bits: 2048
   landForce: 1.06
   standDelay: 1
   bubbleSizeMultiplier: 0.7951085

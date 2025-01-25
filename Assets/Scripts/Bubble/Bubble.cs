@@ -9,7 +9,7 @@ public class Bubble : MonoBehaviour
     private SphereCollider col;
 
     [SerializeField]
-    private LayerMask environmentLayers, enemyLayers;
+    private LayerMask environmentLayers, enemyLayers, hazardLayers;
 
     [SerializeField]
     private float projectileSpeed = 1;
@@ -92,6 +92,10 @@ public class Bubble : MonoBehaviour
         else if (Utils.IsLayerInMask(enemyLayers, layer))
         {
             EncaseEnemy(collision.collider.gameObject);
+        }
+        else if (Utils.IsLayerInMask(hazardLayers, layer))
+        {
+            DestroyBubble();
         }
     }
 

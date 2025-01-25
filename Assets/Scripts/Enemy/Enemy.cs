@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
 
     [SerializeField]
-    private LayerMask environmentLayers, playerLayers;
+    private LayerMask environmentLayers, playerLayers, hazardLayers;
 
     [SerializeField]
     private float landForce = 1;
@@ -72,6 +72,10 @@ public class Enemy : MonoBehaviour
                 health.Damage(1);
             }
         }
+        else if (Utils.IsLayerInMask(hazardLayers, layer) && !Encased)
+        {
+            Die();
+        }
     }
 
     private IEnumerator IDelayStand(float delay)
@@ -91,5 +95,11 @@ public class Enemy : MonoBehaviour
 
         rb.AddForce(Vector3.up * landForce);
         agent.enabled = true;
+    }
+
+    private void Die()
+    {
+        //particle effect
+        Destroy(gameObject);
     }
 }

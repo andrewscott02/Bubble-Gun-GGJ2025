@@ -54,6 +54,9 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 768
+  hazardLayers:
+    serializedVersion: 2
+    m_Bits: 2048
   projectileSpeed: 50
   encaseUpwardsSpeed: 5
   encaseVelocityMultiplier: 0.5
