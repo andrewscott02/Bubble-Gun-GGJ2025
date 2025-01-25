@@ -95,20 +95,9 @@ public class Bubble : MonoBehaviour
         else
         {
             enemy.Encase();
-
-            bubbleVisual.transform.localScale = new(
-                enemy.bubbleSizeMultiplier,
-                enemy.bubbleSizeMultiplier,
-                enemy.bubbleSizeMultiplier
-                );
-
-            enemy.transform.parent = transform;
-            enemy.transform.localPosition = Vector3.zero;
-
-            rb.linearVelocity *= encaseVelocityMultiplier;
-            rb.angularVelocity *= encaseVelocityMultiplier;
-
-            rb.AddForce(Vector3.up * encaseUpwardsSpeed);
+            ResizeBubble(enemy);
+            SetEncasedObjectTransform(enemyObject);
+            SetEncaseForces();
 
             encasing = true;
             encasedObject = enemy.gameObject;
@@ -116,5 +105,33 @@ public class Bubble : MonoBehaviour
             StopCoroutine(destroyCoroutine);
             StartCoroutine(IDelayDestroy(encaseDuration));
         }
+    }
+
+    private void ResizeBubble(Enemy enemy)
+    {
+        bubbleVisual.transform.localScale = new(
+                        enemy.bubbleSizeMultiplier,
+                        enemy.bubbleSizeMultiplier,
+                        enemy.bubbleSizeMultiplier
+                        );
+    }
+
+    private void SetEncasedObjectTransform(GameObject encasedObject)
+    {
+        encasedObject.transform.SetParent(transform, true);
+
+        Vector3 desiredPos = Vector3.zero;
+        desiredPos.y = -encasedObject.GetComponent<Collider>().bounds.size.y/2;
+
+        encasedObject.transform.localPosition = desiredPos;
+        encasedObject.transform.rotation = Quaternion.identity;
+    }
+
+    private void SetEncaseForces()
+    {
+        rb.linearVelocity *= encaseVelocityMultiplier;
+        rb.angularVelocity *= encaseVelocityMultiplier;
+
+        rb.AddForce(Vector3.up * encaseUpwardsSpeed);
     }
 }
