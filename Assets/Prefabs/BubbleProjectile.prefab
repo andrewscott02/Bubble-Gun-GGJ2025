@@ -59,6 +59,8 @@ MonoBehaviour:
   encaseVelocityMultiplier: 0.5
   lifetime: 5
   encaseDuration: 10
+  basePopThreshold: 0.4
+  encasePopThreshold: 0.2
 --- !u!54 &5798692555279247649
 Rigidbody:
   m_ObjectHideFlags: 0

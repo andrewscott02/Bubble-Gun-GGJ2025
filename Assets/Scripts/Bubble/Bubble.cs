@@ -23,6 +23,12 @@ public class Bubble : MonoBehaviour
     [SerializeField]
     private float encaseDuration = 10;
 
+    [SerializeField]
+    private float basePopThreshold = 0.5f;
+    [SerializeField]
+    private float encasePopThreshold = 0.5f;
+    private float collisionDamage = 0;
+
     private Rigidbody rb;
 
     private bool encasing;
@@ -41,13 +47,17 @@ public class Bubble : MonoBehaviour
     private IEnumerator IDelayDestroy(float delay)
     {
         yield return new WaitForSeconds(delay);
+        DestroyBubble();
+    }
 
+    private void DestroyBubble()
+    {
         if (encasing)
         {
             foreach (GameObject encasedObject in encasedObjects)
             {
                 encasedObject.transform.parent = null;
-                
+
                 if (encasedObject.TryGetComponent<Enemy>(out Enemy enemy))
                 {
                     enemy.StopEncase();
@@ -68,24 +78,20 @@ public class Bubble : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        CheckCollision(collision.collider);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        CheckCollision(other);
-    }
-
-    private void CheckCollision(Collider other)
-    {
-        int layer = other.gameObject.layer;
-        if (Utils.IsLayerInMask(environmentLayers, layer) && !encasing)
+        int layer = collision.collider.gameObject.layer;
+        if (Utils.IsLayerInMask(environmentLayers, layer))
         {
-            Destroy(this.gameObject);
+            float popThreshold = encasing ? encasePopThreshold : basePopThreshold;
+
+            if (collision.impulse.magnitude+ collisionDamage > popThreshold)
+                DestroyBubble();
+            else
+                collisionDamage += collision.impulse.magnitude * 2;
+
         }
         else if (Utils.IsLayerInMask(enemyLayers, layer))
         {
-            EncaseEnemy(other.gameObject);
+            EncaseEnemy(collision.collider.gameObject);
         }
     }
 

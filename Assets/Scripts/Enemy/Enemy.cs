@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
 
     [SerializeField]
-    private LayerMask environmentLayers;
+    private LayerMask environmentLayers, playerLayers;
 
     [SerializeField]
     private float landForce = 1;
@@ -64,6 +64,13 @@ public class Enemy : MonoBehaviour
         if (Utils.IsLayerInMask(environmentLayers, layer) && !Encased)
         {
             StartCoroutine(IDelayStand(standDelay));
+        }
+        else if (Utils.IsLayerInMask(playerLayers, layer) && !Encased)
+        {
+            if (other.TryGetComponent<PlayerHealth>(out PlayerHealth health))
+            {
+                health.Damage(1);
+            }
         }
     }
 
