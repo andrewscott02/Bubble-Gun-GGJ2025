@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private GameObject deathFX;
+    [SerializeField]
+    private float hitForcePlayer = 250;
+    [SerializeField]
+    private float hitForceSelf = 600;
 
     [SerializeField]
     private float landForce = 1;
@@ -73,12 +78,30 @@ public class Enemy : MonoBehaviour
             if (other.TryGetComponent<PlayerHealth>(out PlayerHealth health))
             {
                 health.Damage(1);
+                ApplyKnockbackToSelf(other);
+                ApplyKnockbackToPlayer(other);
             }
         }
         else if (Utils.IsLayerInMask(hazardLayers, layer) && !Encased)
         {
             Die();
         }
+    }
+
+    private void ApplyKnockbackToPlayer(Collider other)
+    {
+        Vector3 playerDir = other.transform.position - transform.position;
+        playerDir.Normalize();
+        playerDir.y = 0.5f;
+        other.GetComponent<Rigidbody>().AddForce(playerDir * hitForcePlayer);
+    }
+
+    private void ApplyKnockbackToSelf(Collider other)
+    {
+        Vector3 enemyDir = transform.position - other.transform.position;
+        enemyDir.Normalize();
+        enemyDir.y = 0.5f;
+        rb.AddForce(enemyDir * hitForceSelf);
     }
 
     private IEnumerator IDelayStand(float delay)
@@ -90,6 +113,7 @@ public class Enemy : MonoBehaviour
 
     private void StandUp()
     {
+        rb.isKinematic = true;
         Vector3 rot = transform.rotation.eulerAngles;
 
         rot.x = rot.z = 0;

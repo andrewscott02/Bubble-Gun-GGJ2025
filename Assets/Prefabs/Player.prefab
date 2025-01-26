@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 1585260128797952080}
   - component: {fileID: 2650185339951191738}
   - component: {fileID: 7702647831519661408}
+  - component: {fileID: 9054204620550866251}
   - component: {fileID: 7907443509712134705}
   - component: {fileID: 5013282107803277020}
   - component: {fileID: 8094669863911383755}
@@ -146,6 +147,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpawnTransform: {fileID: 8206877586140119241}
   projectileObject: {fileID: 8344299583121824746, guid: b1f7199c42fdf804b9f69482a2b297f5, type: 3}
+--- !u!114 &9054204620550866251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3185362845320059876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fe56e37499ce04a8c5b8d05dcbcb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  deathFX: {fileID: 4129786204637099130, guid: 75f0e0215d0007d44be8cd42f0bb944c, type: 3}
+  hitImage: {fileID: 0}
+  hitOpacity: 0.2
+  opacityResetInterval: 0.05
+  opacityResetAmount: 0.005
 --- !u!114 &7907443509712134705
 MonoBehaviour:
   m_ObjectHideFlags: 0
