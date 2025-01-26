@@ -109,6 +109,7 @@ public class Enemy : Encasable
 
     internal void Die()
     {
+        ObjectSpawner.currentCount--;
         Instantiate(deathFX, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

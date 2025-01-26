@@ -2,6 +2,7 @@ using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,8 +30,11 @@ public class PlayerController : MonoBehaviour
         cinemachineOrbital = GetComponentInChildren<CinemachineOrbitalFollow>();
 
         inputs.FindAction("Fire").performed += FireInput;
+
         inputs.FindAction("Move").performed += MoveInput;
         inputs.FindAction("Move").canceled += MoveInput;
+
+        inputs.FindAction("Quit").performed += (c) => SceneManager.LoadScene("SplashScreen");
     }
 
     private void FireInput(InputAction.CallbackContext context)
