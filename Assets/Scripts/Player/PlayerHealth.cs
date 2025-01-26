@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,6 +23,11 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private float opacityResetAmount;
 
+    [SerializeField]
+    private TextMeshProUGUI healthUI;
+    [SerializeField]
+    private string baseHealthText = "Health:";
+
     private void Awake()
     {
         CurrentHealth = maxHealth;
@@ -41,6 +47,8 @@ public class PlayerHealth : MonoBehaviour
             newColour.a = hitOpacity;
             hitImage.color = newColour;
             StartCoroutine(IResetOpacity(opacityResetInterval));
+
+            healthUI.text = $"{baseHealthText} {CurrentHealth}";
         }
     }
 
@@ -58,6 +66,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        healthUI.text = $"{baseHealthText} 0";
         Color newColour = hitImage.color;
         newColour.a = hitOpacity;
         hitImage.color = newColour;

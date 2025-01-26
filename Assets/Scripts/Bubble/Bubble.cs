@@ -9,7 +9,7 @@ public class Bubble : MonoBehaviour
     private SphereCollider col;
 
     [SerializeField]
-    private LayerMask environmentLayers, enemyLayers, hazardLayers;
+    private LayerMask environmentLayers, encasableLayers, hazardLayers;
 
     [SerializeField]
     private Object bubblePopFX;
@@ -61,10 +61,11 @@ public class Bubble : MonoBehaviour
             {
                 encasedObject.transform.parent = null;
 
-                if (encasedObject.TryGetComponent<Enemy>(out Enemy enemy))
+                if (encasedObject.TryGetComponent<Encasable>(out Encasable encasable))
                 {
-                    enemy.StopEncase();
+                    encasable.StopEncase();
                 }
+                else throw new System.Exception("Object does not have an encasable script");
             }
         }
 
@@ -93,9 +94,9 @@ public class Bubble : MonoBehaviour
                 collisionDamage += collision.impulse.magnitude * 2;
 
         }
-        else if (Utils.IsLayerInMask(enemyLayers, layer))
+        else if (Utils.IsLayerInMask(encasableLayers, layer))
         {
-            EncaseEnemy(collision.collider.gameObject);
+            EncaseObject(collision.collider.gameObject);
         }
         else if (Utils.IsLayerInMask(hazardLayers, layer))
         {
@@ -103,34 +104,34 @@ public class Bubble : MonoBehaviour
         }
     }
 
-    private void EncaseEnemy(GameObject enemyObject)
+    private void EncaseObject(GameObject encasableObject)
     {
-        Enemy enemy = enemyObject.GetComponent<Enemy>();
+        Encasable encasable = encasableObject.GetComponent<Encasable>();
         
-        if (!enemy.Encased && !encasedObjects.Contains(enemyObject))
+        if (!encasable.Encased && !encasedObjects.Contains(encasableObject))
         {
-            enemy.Encase();
-            ResizeBubble(enemy);
-            SetEncasedObjectTransform(enemyObject);
+            encasable.Encase();
+            ResizeBubble(encasable);
+            SetEncasedObjectTransform(encasableObject);
             SetEncaseForces();
 
             encasing = true;
-            encasedObjects.Add(enemy.gameObject);
+            encasedObjects.Add(encasable.gameObject);
 
             StopCoroutine(destroyCoroutine);
             StartCoroutine(IDelayDestroy(encaseDuration));
         }
     }
 
-    private void ResizeBubble(Enemy enemy)
+    private void ResizeBubble(Encasable encasable)
     {
         bubbleVisual.transform.localScale = new(
-                        enemy.bubbleSizeMultiplier,
-                        enemy.bubbleSizeMultiplier,
-                        enemy.bubbleSizeMultiplier
+                        encasable.bubbleSizeMultiplier,
+                        encasable.bubbleSizeMultiplier,
+                        encasable.bubbleSizeMultiplier
                         );
 
-        col.radius = enemy.bubbleSizeMultiplier / 2;
+        col.radius = encasable.bubbleSizeMultiplier / 2;
     }
 
     private void SetEncasedObjectTransform(GameObject encasedObject)

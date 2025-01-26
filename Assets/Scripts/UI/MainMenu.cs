@@ -35,6 +35,9 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         playButton.onClick.AddListener(() => ButtonPressed(Play, playBubble, 0.75f));
         infoButton.onClick.AddListener(() => ButtonPressed(Info, infoBubble, 0.1f));
         quitButton.onClick.AddListener(() => ButtonPressed(Quit, quitBubble, 0.75f));

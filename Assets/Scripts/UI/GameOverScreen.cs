@@ -30,6 +30,9 @@ public class GameOVer : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         playButton.onClick.AddListener(() => ButtonPressed(Play, playBubble, 0.75f));
         menuButton.onClick.AddListener(() => ButtonPressed(Menu, menuBubble, 0.75f));
         quitButton.onClick.AddListener(() => ButtonPressed(Quit, quitBubble, 0.75f));

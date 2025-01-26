@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Encasable
 {
     private PlayerController player;
 
@@ -24,16 +24,10 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float standDelay = 1;
 
-    public float bubbleSizeMultiplier;
-
-    private Rigidbody rb;
-
-    public bool Encased { get; private set; } = false;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -43,22 +37,11 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(player.transform.position);
     }
 
-    public void Encase()
+    internal override void Encase()
     {
-        Encased = true;
-        rb.isKinematic = true;
-        rb.detectCollisions = false;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        base.Encase();
 
         agent.enabled = false;
-    }
-
-    internal void StopEncase()
-    {
-        Encased = false;
-        rb.isKinematic = false;
-        rb.detectCollisions = true;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -124,7 +107,7 @@ public class Enemy : MonoBehaviour
         agent.enabled = true;
     }
 
-    private void Die()
+    internal void Die()
     {
         Instantiate(deathFX, transform.position, Quaternion.identity);
         Destroy(gameObject);

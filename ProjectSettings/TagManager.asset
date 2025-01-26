@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Bubble
+  - Object
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Bubble
   - Enemy
   - EnemyTrigger
-  - 
+  - Object
   - Spikes
   - 
   - 

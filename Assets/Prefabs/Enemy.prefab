@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7391bf3bbbb41d4f99b02bc82fabde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bubbleSizeMultiplier: 0.8
   environmentLayers:
     serializedVersion: 2
     m_Bits: 1
@@ -62,7 +63,6 @@ MonoBehaviour:
   hitForceSelf: 1000
   landForce: 1.06
   standDelay: 1
-  bubbleSizeMultiplier: 0.7951085
 --- !u!54 &4421767989400102455
 Rigidbody:
   m_ObjectHideFlags: 0
